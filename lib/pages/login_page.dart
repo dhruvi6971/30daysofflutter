@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/utilities/routs.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -9,60 +10,65 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
         color: Colors.white,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 40.0,
-            ),
-            Image.asset("assets/images/login_image.png"),
-            SizedBox(
-              height: 20.0,
-            ),
-            Text(
-              "Welcome",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 40.0,
               ),
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
-              child: Column(
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                        hintText: "Enter Username",
-                        labelText: "Enter Username"),
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        hintText: "Enter Password",
-                        labelText: "Enter Password"),
-                  ),
-                ],
+              Image.asset("assets/images/login_image.png"),
+              SizedBox(
+                height: 20.0,
               ),
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                print("hello dhruvi");
-              },
-              child: Text(
-                "Login",
-                style: TextStyle(color: Colors.white),
+              Text(
+                "Welcome",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 20.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 16.0, horizontal: 32.0),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(
+                          hintText: "Enter Username",
+                          labelText: "Enter Username"),
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          hintText: "Enter Password",
+                          labelText: "Enter Password"),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              ElevatedButton(
+                style: TextButton.styleFrom(
+                  minimumSize: Size(348, 50),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, MyRoutes.homeroute);
+                },
+                child: Text(
+                  "Login",
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ],
+          ),
         ));
   }
 }
