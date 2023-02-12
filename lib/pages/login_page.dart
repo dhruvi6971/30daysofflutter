@@ -12,6 +12,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   String name = "";
+  bool changebutton = false;
 
   @override
   Widget build(BuildContext context) {
@@ -65,18 +66,52 @@ class _LoginState extends State<Login> {
               SizedBox(
                 height: 20.0,
               ),
-              ElevatedButton(
-                style: TextButton.styleFrom(
-                  minimumSize: Size(348, 50),
-                ),
-                onPressed: () {
+              InkWell(
+                onTap: (() async {
+                  setState(() {
+                    changebutton = true;
+                  });
+                  await Future.delayed(
+                    Duration(seconds: 1),
+                  );
+                  // ignore: use_build_context_synchronously
                   Navigator.pushNamed(context, MyRoutes.homeroute);
-                },
-                child: Text(
-                  "Login",
-                  style: TextStyle(fontSize: 16),
+                }),
+                child: AnimatedContainer(
+                  duration: Duration(seconds: 1),
+                  height: 50,
+                  width: 348,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.deepPurple,
+                  ),
+                  child: changebutton
+                      ? Icon(
+                          Icons.done,
+                          color: Colors.white,
+                        )
+                      : Text(
+                          "Login",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
               ),
+              // ElevatedButton(
+              //   style: TextButton.styleFrom(
+              //     minimumSize: Size(348, 50),
+              //   ),
+              //   onPressed: () {
+              //     Navigator.pushNamed(context, MyRoutes.homeroute);
+              //   },
+              //   child: Text(
+              //     "Login",
+              //     style: TextStyle(fontSize: 16),
+              //   ),
+              // ),
             ],
           ),
         ));
