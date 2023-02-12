@@ -3,8 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/utilities/routs.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  String name = "";
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +28,7 @@ class Login extends StatelessWidget {
                 height: 20.0,
               ),
               Text(
-                "Welcome",
+                "Welcome $name",
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -36,10 +43,13 @@ class Login extends StatelessWidget {
                 child: Column(
                   children: [
                     TextFormField(
-                      decoration: InputDecoration(
-                          hintText: "Enter Username",
-                          labelText: "Enter Username"),
-                    ),
+                        decoration: InputDecoration(
+                            hintText: "Enter Username",
+                            labelText: "Enter Username"),
+                        onChanged: (value) {
+                          name = value;
+                          setState(() {});
+                        }),
                     SizedBox(
                       height: 8.0,
                     ),
