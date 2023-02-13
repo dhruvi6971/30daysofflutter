@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/utilities/routs.dart';
@@ -13,6 +13,23 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String name = "";
   bool changebutton = false;
+
+  final _formKey = GlobalKey<FormState>();
+  moveToHome(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        changebutton = true;
+      });
+      await Future.delayed(
+        Duration(seconds: 1),
+      );
+
+      await Navigator.pushNamed(context, MyRoutes.homeroute);
+      setState(() {
+        changebutton = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,45 +55,56 @@ class _LoginState extends State<Login> {
               SizedBox(
                 height: 20.0,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 16.0, horizontal: 32.0),
-                child: Column(
-                  children: [
-                    TextFormField(
+              Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 16.0, horizontal: 32.0),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
+                            return 'Enter correct name';
+                          } else {
+                            return null;
+                          }
+                        },
                         decoration: InputDecoration(
                             hintText: "Enter Username",
                             labelText: "Enter Username"),
                         onChanged: (value) {
                           name = value;
                           setState(() {});
-                        }),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          hintText: "Enter Password",
-                          labelText: "Enter Password"),
-                    ),
-                  ],
+                        },
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[1-10].{6,}$').hasMatch(value)) {
+                            return 'Enter correct password';
+                          } else {
+                            return null;
+                          }
+                        },
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            hintText: "Enter Password",
+                            labelText: "Enter Password"),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
                 height: 20.0,
               ),
               InkWell(
-                onTap: (() async {
-                  setState(() {
-                    changebutton = true;
-                  });
-                  await Future.delayed(
-                    Duration(seconds: 1),
-                  );
-                  // ignore: use_build_context_synchronously
-                  Navigator.pushNamed(context, MyRoutes.homeroute);
-                }),
+                onTap: () => moveToHome(context),
                 child: AnimatedContainer(
                   duration: Duration(seconds: 1),
                   height: 50,
@@ -100,18 +128,6 @@ class _LoginState extends State<Login> {
                         ),
                 ),
               ),
-              // ElevatedButton(
-              //   style: TextButton.styleFrom(
-              //     minimumSize: Size(348, 50),
-              //   ),
-              //   onPressed: () {
-              //     Navigator.pushNamed(context, MyRoutes.homeroute);
-              //   },
-              //   child: Text(
-              //     "Login",
-              //     style: TextStyle(fontSize: 16),
-              //   ),
-              // ),
             ],
           ),
         ));
