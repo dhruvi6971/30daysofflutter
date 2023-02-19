@@ -4,12 +4,18 @@ import 'package:flutter/material.dart';
 
 import '../models/catalog.dart';
 
-class ItemWidget extends StatelessWidget {
-  final Item products;
-  const ItemWidget({Key? key, required this.products})
-      : assert(products != null),
+class ItemWidget extends StatefulWidget {
+  final Item items;
+  const ItemWidget({Key? key, required this.items})
+      // ignore: unnecessary_null_comparison
+      : assert(items != null),
         super(key: key);
 
+  @override
+  State<ItemWidget> createState() => _ItemWidgetState();
+}
+
+class _ItemWidgetState extends State<ItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -17,17 +23,17 @@ class ItemWidget extends StatelessWidget {
       child: ListTile(
         onTap: () {
           // ignore: avoid_print
-          print("${products.name} pressed");
+          print("${widget.items.name} pressed");
         },
-        leading: Image.network(products.image),
-        title: Text(products.name),
-        subtitle: Text(products.desc),
-        trailing: Text(
-          "\$${products.price}",
-          textScaleFactor: 1.3,
-          style:
-              TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
-        ),
+        leading: Image.network(widget.items.image),
+        title: Text(widget.items.name),
+        subtitle: Text(widget.items.desc),
+        // trailing: Text(
+        //   "\$${widget.items.price}",
+        //   textScaleFactor: 1.3,
+        //   style:
+        //       TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+        // ),
       ),
     );
   }

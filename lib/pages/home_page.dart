@@ -1,15 +1,39 @@
-// ignore_for_file: prefer_const_constructors,
-
+// ignore_for_file: prefer_const_constructors,, avoid_print
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
 import 'package:flutter_application_2/models/catalog.dart';
 import 'package:flutter_application_2/widgets/drawer.dart';
-
 import '../widgets/items_widget.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    await Future.delayed(Duration(seconds: 1));
+    final catalogJson =
+        await rootBundle.loadString("assets/files/catalog.json");
+
+    final decodeData = jsonDecode(catalogJson);
+    var productsData = decodeData["products"];
+    CatalogModel.items = List.from(productsData)
+        .map<Item>((item) => Item.fromMap(item))
+        .toList();
+    setState(() {});
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -20,10 +44,10 @@ class HomePage extends StatelessWidget {
       ),
       body: ListView.builder(
           padding: EdgeInsets.fromLTRB(10, 14, 10, 0),
-          itemCount: CatalogModel.products.length,
+          itemCount: CatalogModel.items.length,
           itemBuilder: ((context, index) {
             return ItemWidget(
-              products: CatalogModel.products[index],
+              items: CatalogModel.items[index],
             );
           })),
       drawer: MyDrawer(),
